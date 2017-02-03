@@ -45,6 +45,14 @@ class UserProfilesController < ApplicationController
 end
 ```
 
+### Convenience alias
+
+```ruby
+require 'arkency/feature_toggle/alias'
+```
+
+From now on you can use top-level `::FeatureToggle`.
+
 ### Read more
 
 [A simple feature toggle for a Rails app] (http://blog.arkency.com/2015/11/simple-feature-toggle-for-rails-app/) on Arkency blog.
