@@ -1,5 +1,4 @@
 require "bundler/setup"
-require "feature_toggle"
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure

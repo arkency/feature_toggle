@@ -1,15 +1,14 @@
 # FeatureToggle
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/feature_toggle`. To experiment with that code, run `bin/console` for an interactive prompt.
+A simple feature Toggle for a Rails app.
 
-TODO: Delete this and the text above, and describe your gem
 
 ## Installation
 
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'feature_toggle'
+gem 'arkency-feature_toggle'
 ```
 
 And then execute:
@@ -18,19 +17,43 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install feature_toggle
+    $ gem install arkency-feature_toggle
 
 ## Usage
 
-TODO: Write usage instructions here
+### Defining toggles
 
-## Development
+```ruby
+FT = FeatureToggle.new.tap do |ft|
+  ft.for(:new_user_profile) do |user_id:|
+    Admin.where(user_id: user_id).exists?
+  end
+end
+```
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+### Enabling given feature via toggle
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+```ruby
+class UserProfilesController < ApplicationController
+  def show
+    FT.with(:new_user_profile, user_id: current_user.id) do
+      return render :new_user_profile, locals: { user: NewUserProfilePresenter.new(current_user) }
+    end
 
-## Contributing
+    render :show, locals: { user: UserProfilePresenter.new(current_user) }
+  end
+end
+```
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/Szymon Fiedler/feature_toggle.
+### Read more
+
+[A simple feature toggle for a Rails app] (http://blog.arkency.com/2015/11/simple-feature-toggle-for-rails-app/) on Arkency blog.
+
+## About
+
+<img src="http://arkency.com/images/arkency.png" alt="Arkency" width="20%" align="left" />
+
+Feature Toggle funded and maintained by Arkency. Check out our other [open-source projects](https://github.com/arkency).
+
+You can also [hire us](http://arkency.com) or [read our blog](http://blog.arkency.com).
 
